@@ -2,6 +2,8 @@
 
 MCP server that provides direct access to the [shadcn/ui v4](https://ui.shadcn.com/) component registry. Built for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
+![MCP Server](https://img.shields.io/badge/MCP_Server-1E3A8A) ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white) ![License: MIT](https://img.shields.io/badge/License-MIT-green)
+
 ## What It Does
 
 Fetches shadcn/ui v4 component source code, blocks, and metadata directly from the official GitHub registry — so Claude Code can look up component implementations, search for blocks, and reference source code without leaving the terminal.
@@ -37,7 +39,7 @@ All data is fetched from the official shadcn/ui v4 GitHub repository:
 ### Install Dependencies
 
 ```bash
-pip install httpx mcp
+pip install -r requirements.txt
 ```
 
 ### Configure Claude Code
@@ -85,4 +87,4 @@ Single-file MCP server (`server.py`, ~355 lines) using the Python MCP SDK with s
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
