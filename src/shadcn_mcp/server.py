@@ -66,7 +66,6 @@ async def _load_index():
     current_name = None
     current_entry = {}
     in_style = False
-    depth = 0
 
     for line in raw.split("\n"):
         stripped = line.strip()
@@ -291,7 +290,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             if not files:
                 return [TextContent(type="text", text=f"Block '{block_name}' not found")]
 
-            parts = [f"── get_block ──"]
+            parts = ["── get_block ──"]
             if entry and entry.get("description"):
                 parts.append(f"Description: {entry['description']}")
 
@@ -350,5 +349,9 @@ async def main():
     async with stdio_server() as (read, write):
         await app.run(read, write, app.create_initialization_options())
 
-if __name__ == "__main__":
+def run():
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    run()

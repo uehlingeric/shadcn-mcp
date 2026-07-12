@@ -4,6 +4,8 @@ MCP server that provides direct access to the [shadcn/ui v4](https://ui.shadcn.c
 
 ![MCP Server](https://img.shields.io/badge/MCP_Server-1E3A8A) ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white) ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
+![Architecture](docs/assets/architecture.png)
+
 ## What It Does
 
 Fetches shadcn/ui v4 component source code, blocks, and metadata directly from the official GitHub registry — so Claude Code can look up component implementations, search for blocks, and reference source code without leaving the terminal.
@@ -34,12 +36,14 @@ All data is fetched from the official shadcn/ui v4 GitHub repository:
 
 ### Prerequisites
 
-- Python 3.10+
+- [uv](https://docs.astral.sh/uv/) (manages Python 3.10+ automatically)
 
-### Install Dependencies
+### Install
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/uehlingeric/shadcn-mcp.git
+cd shadcn-mcp
+uv sync
 ```
 
 ### Configure Claude Code
@@ -50,8 +54,8 @@ Add to your Claude Code MCP settings (`~/.claude/settings.json`):
 {
   "mcpServers": {
     "shadcn": {
-      "command": "python3",
-      "args": ["/path/to/shadcn-mcp/server.py"]
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/shadcn-mcp", "shadcn-mcp"]
     }
   }
 }
@@ -83,7 +87,7 @@ Copy `SKILL.md` to `~/.claude/skills/shadcn/SKILL.md` to enable the `/shadcn` sl
 
 ## Architecture
 
-Single-file MCP server (`server.py`, ~355 lines) using the Python MCP SDK with stdio transport. Parses the shadcn/ui v4 `__index__.tsx` at startup to build a component registry. HTTP fetches use `httpx` with a 1-hour in-memory cache.
+Single-module MCP server (`src/shadcn_mcp/server.py`, ~360 lines) using the Python MCP SDK with stdio transport, packaged with uv and exposed as the `shadcn-mcp` console script. Parses the shadcn/ui v4 `__index__.tsx` at startup into a registry of 48 components and 30 blocks. HTTP fetches use `httpx` with a 1-hour in-memory cache.
 
 ## License
 
